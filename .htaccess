@@ -1,0 +1,18 @@
+# Disable directory listing
+Options -Indexes
+
+# Enable mod_rewrite
+RewriteEngine On
+
+# Remove PHP extensions from URLs
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}\.php -f
+RewriteRule ^(.*)$ $1.php [L]
+
+# Block access to sensitive files
+<FilesMatch "\.(env|htaccess|json|xml|ini|log|sh|bak|sql|git|DS_Store|config)$">
+    Require all denied
+</FilesMatch>
+
+# Set default index
+DirectoryIndex index.php

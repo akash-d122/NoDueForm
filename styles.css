@@ -1,0 +1,193 @@
+
+/* Content area */
+.content {
+    margin-left: 250px;
+    padding: 20px;
+}
+
+/* login styles */
+body {
+    min-height: 100vh;
+    background: linear-gradient(to bottom right, #c3e6cb, #ffffff);
+    background-size: cover;
+    background-position: center;
+    font-family: "Poppins", Georgia;
+}
+.ex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+    color: #d45454;
+}
+
+
+.wrapper {
+    width: 100%;
+    max-width: 450px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+    color: #4b0082;
+    border-radius: 12px;
+    padding: 50px 50px 60px 50px; /* Increased padding for more vertical space */
+    margin: 40px auto; /* Adjusted top and bottom margin for spacing */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);   
+}
+.wrapper h1 {
+    font-size: 28px;
+    text-align: center;
+    margin-bottom: 10px; /* Reduced bottom margin */
+    margin-top: 0; /* Removed negative top margin */
+    color: #d45454;
+    text-decoration: underline;
+    letter-spacing: 1px;
+    font-weight: bold;
+}
+
+
+.input-box {
+    position: relative;
+    margin-bottom: 20px;
+}
+.input-box input {
+    width: 83%;
+    padding: 15px 45px 15px 20px;
+    border: 2px solid rgba(255, 255, 255, .2);
+    border-color: #454545;
+    border-radius: 40px;
+    outline: none;
+    font-size: 16px;
+    color: purple;
+    background: transparent;
+}
+.input-box input[name="department"] {
+    text-transform: uppercase;
+}
+.input-box input::placeholder {
+    color: gray;
+}
+.input-box i {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 20px;
+    color: purple;
+}
+
+.error-message {
+    color: red;
+    text-align: center;
+    margin-top: 10px;
+}
+.reset-link {
+    text-align: center;
+    margin-top: 10px;
+}
+.reset-link a {
+    color: purple;
+    text-decoration: none;
+    font-weight: bold;
+    
+}
+.reset-link a:hover {
+    text-decoration: underline;
+}
+.aao-login {
+    text-align: center;
+    margin-top: 20px;
+
+}
+.aao-login a {
+    color: #d45454;
+    text-decoration: none;
+    font-weight: bold;
+    
+}
+.aao-login a:hover {
+    text-decoration: underline;
+}
+
+.overlay {
+    display: none; /* Initially hidden */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+    z-index: 999; /* Lower than the popup but higher than other elements */
+}
+
+/* Popup container */
+.popup {
+    display: none; /* Initially hidden */
+    position: fixed;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000; /* Higher than the overlay */
+    padding: 20px;
+}
+
+/* Popup header */
+.popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ccc;
+}
+
+.popup-header h2 {
+    margin: 0;
+    font-size: 18px;
+    color: #333;
+}
+
+.popup-header .close-btn {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: #999;
+    font-weight: bold;
+}
+
+.popup-header .close-btn:hover {
+    color: #ff0000;
+}
+
+/* Input box */
+.popup-form .input-box {
+margin-right: 20px;
+}
+
+.popup-form .input-box input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+/* Submit button */
+.popup-form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #28a745;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.popup-form button:hover {
+    background-color: #218838;
+}
