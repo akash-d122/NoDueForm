@@ -127,6 +127,8 @@ foreach ($students as $student) {
 <head>
     <title>MITS | NoDueForm</title>
     <link rel="stylesheet" href="stylesmentee.css">
+    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
 </head>
 <body>
     <?php include('faculty_sidebar.php'); ?>

@@ -50,44 +50,52 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['roll_number'])) {
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Home | Resources Information</title>
+    <title>Home | Student Information</title>
     <link rel="stylesheet" type="text/css" href="stylesStudent.css">
+    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+
+
+    </style>
 </head>
 <body>
     <div class="content">
-        <div style="text-align: center; margin-top:-80px;">
+        <div style="text-align: center; margin-bottom: 20px;">
             <img src="Mits_logo_24-removebg-preview.png" alt="Table Image" height="200" width="800">
         </div>
         <div class="heading-section">
-            <label><center>Student No Due Form Status</center></label>
+            <h2 style="font-weight: Bold; font-size: 28px; text-align: center; color:#357EC7;">Status of Student No Due Form</h2>
+            <!-- <label style="font-weight: bold; align: left;">Status of Student No Due Form</label> -->
         </div>
+
         <form method="POST" action="">
-            <div style='margin-left: 150px;'>
-                <label>Roll Number :</label>
-                <input type="text" id="roll_number" name="roll_number" style="height: 30px; width: 320px; border:1px solid black;border-radius:5px;" value="<?php echo htmlspecialchars($_POST['roll_number'] ?? ''); ?>" required>
-                <button type="submit" class="add-button" style="width: 100px;">Search</button>
-            </div>
+            <label for="roll_number" style="margin-top:0.6vh; font-size:1vw;margin-left:-5px">Roll Number : </label>
+            <input type="text" id="roll_number"  style="width: 600px; text-transform: uppercase; border: 1px solid;" name="roll_number" 
+                value="<?php echo htmlspecialchars($_POST['roll_number'] ?? ''); ?>" required>
+            <button type="submit">Search</button>
         </form>
-        
+    <div style="margin-left : 2vw;">
         <?php if (!empty($student_data)): ?>
-        <div class="form-row">
-            <div style="margin-left: 150px;">
-                <label>Student Name :</label>
-                <input type="text" style="width: 290px; margin-left: 18px;" value="<?php echo htmlspecialchars($student_data['name']); ?>" disabled>
+        <div class="form-row" style="m">
+            <div>
+                <label style="color:#357EC7;">Student Name   :</label>
+                <input type="text" style="width: 200px; margin-left: 20px; border: none; font-weight: bold; color: black;" value="<?php echo htmlspecialchars($student_data['name']); ?>" disabled>
             </div>
             <div>
-                <label>Roll Number :</label>
-                <input type="text" style="width: 250px; margin-left: 10px;" value="<?php echo htmlspecialchars($student_data['roll_number']); ?>" disabled>
+                <label style="color:#357EC7;">Roll Number   :</label>
+                <input type="text" style="width: 175px; border: none; font-weight: bold; color: black;" value="<?php echo htmlspecialchars($student_data['roll_number']); ?>" disabled>
             </div>
         </div>
         <div class="form-row">
-            <div style="margin-left: 150px;">
-                <label>Year & Semester :</label>
-                <input type="text" style="width: 290px;" value="<?php echo htmlspecialchars($student_data['year_semester']); ?>" disabled>
+            <div>
+                <label style="color:#357EC7;">Year & Semester : </label>
+                <input type="text" style="width: 175px; border: none; font-weight: bold; color: black;" value="<?php echo htmlspecialchars($student_data['year_semester']); ?>" disabled>
             </div>
             <div>
-                <label>Section :</label>
-                <input type="text" style="width: 290px;" value="<?php echo htmlspecialchars($student_data['section']); ?>" disabled>
+                <label style="color:#357EC7;">Section   :</label>
+                <input type="text" style="width: 175px; margin-left: 40px; border: none; font-weight: bold; color: black;" value="<?php echo htmlspecialchars($student_data['section']); ?>" disabled>
             </div>
         </div>
 
@@ -105,16 +113,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['roll_number'])) {
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($subjects_data as $index => $subject): ?>
-                    <tr>
-                        <td><?php echo $index + 1; ?></td>
-                        <td><?php echo htmlspecialchars($subject['subject_name']); ?></td>
-                        <td><?php echo htmlspecialchars($subject['faculty_name']); ?></td>
-                        <td style="text-align: center;"><?php echo $subject['assignment_1_status'] === 'Yes' ? '✔' : '✘'; ?></td>
-                        <td style="text-align: center;"><?php echo $subject['assignment_2_status'] === 'Yes' ? '✔' : '✘'; ?></td>
-                        <td><?php echo htmlspecialchars($subject['remarks'] ?? ''); ?></td>
-                    </tr>
-                    <?php endforeach; ?>
+                <?php foreach ($subjects_data as $index => $subject): ?>
+                <tr>
+                    <td><?php echo $index + 1; ?></td>
+                    <td><?php echo htmlspecialchars($subject['subject_name']); ?></td>
+                    <td><?php echo htmlspecialchars($subject['faculty_name']); ?></td>
+                    <td style="text-align: center;">
+                        <?php
+                        if (intval($subject['assignment_1_status']) == 1) {
+                            echo '<i class="fa-regular fa-circle-check fa-xl" style="color: #63E6BE;"></i><br>Approved';
+                        } else {
+                            echo '<i class="fa-solid fa-spinner fa-rotate-90 fa-xl" style="color: #25378d;"></i><br>Pending';
+                        }
+                        ?>
+                    </td>
+                    <td style="text-align: center;">
+                        <?php
+                        if (intval($subject['assignment_2_status']) == 1) {
+                            echo '<i class="fa-regular fa-circle-check fa-xl" style="color: #63E6BE;"></i><br>Approved';
+                        } else {
+                            echo '<i class="fa-solid fa-spinner fa-rotate-90 fa-xl" style="color: #25378d;"></i><br>Pending';
+                        }
+                        ?>
+                    </td>
+                    <td><?php echo htmlspecialchars($subject['remarks'] ?? ''); ?></td>
+                </tr>
+            <?php endforeach; ?>
+
+
                 </tbody>
             </table>
         </div>
@@ -130,19 +156,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['roll_number'])) {
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($mentoring_data as $index => $mentoring): ?>
+                <?php foreach ($mentoring_data as $index => $mentoring): ?>
                     <tr>
                         <td><?php echo $index + 1; ?></td>
                         <td><?php echo htmlspecialchars($mentoring['option_name']); ?></td>
-                        <td><?php echo htmlspecialchars($mentoring['completion_status'] ?? 'Pending'); ?></td>
+                        <td style="text-align: center; width:5vw;">
+                            <?php
+                            if ($mentoring['completion_status'] === "Yes") {
+                                echo '<i class="fa-regular fa-circle-check fa-xl" style="color: #63E6BE;"></i><br><span style="font-size:0.65vw;">Approved</span>';
+                            } elseif ($mentoring['completion_status'] === "NA") {
+                                echo '<i class="fa-solid fa-circle-question fa-xl" style="color: #FFA500;"></i><br><span style="font-size:0.65vw;">Not Applicable</span>';
+                            } else {
+                                echo '<i class="fa-solid fa-spinner fa-rotate-90 fa-xl" style="color: #25378d;"></i><br>Pending';
+                            }
+                            ?>
+                        </td>
                     </tr>
-                    <?php endforeach; ?>
+                <?php endforeach; ?>
                 </tbody>
             </table>
+            <div class="footer-row" style="font-size: 14px; text-align: center; height: 24px; margin-top: 30px; color: #333; padding: 5px; margin-right: 2vw;">
+                Note: The above information is provisional and provided for reference purposes only.                
+            </div>
+            <div class="footer-row" style="font-size: 14px; text-align: center; height: 24px; margin-top: 30px; background: linear-gradient(to left, #c3e1cb, #ffffff); color: #333; padding: 5px; margin-right:2.5vw;">
+        Developed & Hosted by <b>MITS_InstituteDatabaseSystem@PAARC</b>
+    </div>
         </div>
         <?php elseif ($_SERVER['REQUEST_METHOD'] === 'POST'): ?>
-            <p style="color: red; text-align: center;">No student found with the given roll number.</p>
+            <p class="no-data">No student found with the given roll number.</p>
         <?php endif; ?>
     </div>
+    
+        </div>
 </body>
 </html>

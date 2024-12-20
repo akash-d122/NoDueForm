@@ -55,9 +55,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MITS | Login</title>
+    <title>MITS | HOD Login</title>
+    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
     <link rel="icon" type="image/x-icon" href="images/favicon.ico">
-
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="styles.css">
     
@@ -86,8 +86,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-bottom: 0px;
-
+            margin-bottom: -10px;
+            font-size: 10px;
             color: #d45454;
         }
         .ex1 h1 {
@@ -102,7 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <div class="ex1"><h1>[ -- Internal Access -- ]</h1></div>
     <div class="wrapper">
         <h1>HOD Login</h1>
-        <form method="POST" action="login.php">
+        <form method="POST" action="login.php"style="height:294px;">
             <div class="input-box">
                 <input type="text" style="font-family: Poppins;" name="department" placeholder="Department" required>
                 <i class='bx bxs-user'></i>

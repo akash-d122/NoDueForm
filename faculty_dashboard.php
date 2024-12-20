@@ -22,6 +22,18 @@ if ($result && mysqli_num_rows($result) > 0) {
 } else {
     $employee_name = 'Unknown'; // Fallback if no record is found
 }
+$timeout_duration = 300;
+if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY']) > $timeout_duration) {
+    // Destroy session and redirect to index.php
+    session_unset();
+    session_destroy();
+    header('Location: index.php');
+    exit;
+}
+
+// Update last activity timestamp
+$_SESSION['LAST_ACTIVITY'] = time();
+
 ?>
 
 <!DOCTYPE html>
@@ -30,6 +42,7 @@ if ($result && mysqli_num_rows($result) > 0) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
+    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
     <link rel="icon" type="image/x-icon" href="images/favicon.ico">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
@@ -100,5 +113,13 @@ if ($result && mysqli_num_rows($result) > 0) {
     <!-- Include Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+    <script>
+setTimeout(() => {
+        // Redirect to index.php
+        window.location.href = 'index.php';
+    }, 300000); // 300 seconds
+    </script>
 </body>
 </html>
+
+

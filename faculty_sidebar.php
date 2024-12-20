@@ -5,7 +5,7 @@
         <img src="logo.png">
         <h3><a href="faculty_dashboard.php">Faculty Dashboard</a></h3>
         <a href="faculty_formList.php">List of Forms</a>
-        <a href="#">Reset Password</a>
+        <a href="facultyReset.php">Reset Password</a>
         <a href="#">Profile</a>
         <!-- <a href="edit_profile.php">Edit Profile</a> -->
     </div>

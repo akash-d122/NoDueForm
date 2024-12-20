@@ -35,8 +35,25 @@ $result = mysqli_query($conn, $query);
 $row = mysqli_fetch_assoc($result);
 
 if ($row['student_count'] > 0) {
-
+    // If the form is mapped, display a SweetAlert2 message with two buttons
+    echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>";
     echo "<script>
+            // document.addEventListener('DOMContentLoaded', function() {
+            //     Swal.fire({
+            //         icon: 'info',
+            //         title: '<span class=\"custom-title\">Form Mapping Info</span>',
+            //         html: '<span class=\"custom-content\">This form is already mapped.</span>',
+            //         showCancelButton: true,
+            //         confirmButtonText: '<span class=\"custom-button\">See Details</span>',
+            //         cancelButtonText: '<span class=\"custom-button\">OK</span>'
+            //     }).then(function(result) {
+            //         if (result.isConfirmed) {
+            //             window.location.href = 'mapedDetails.php?form_id=$form_id'; // Redirect to mapped details
+            //         } else {
+            //             window.location.href = 'NoDueFormList.php'; // Redirect to the forms list
+            //         }
+            //     });
+            // });
             window.location.href = 'mapedDetails.php?form_id=$form_id';
           </script>";
        
@@ -59,7 +76,242 @@ if ($row['student_count'] > 0) {
     <link rel="icon" type="image/x-icon" href="images/favicon.ico">
     <!-- <link rel="stylesheet" href="styles.css"> -->
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-   
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            /* background-color: #f5f5f5;  */
+            background: linear-gradient(to bottom right, #d8f0dc, #ffffff);
+        }
+
+        /* Main content area */
+        .content {
+            flex: 1;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            margin-top: 60px;
+            margin-left: 270px;
+        }
+
+        /* Heading section */
+        .heading-section label {
+            font-size: 32px;
+            font-weight: 700; /* Bold weight */
+            color: #357EC7;
+            margin-bottom: 20px;
+            
+        }
+
+        .heading-section {
+            display: flex;
+            align-items: center;
+            justify-content: left;
+            font-size: 32px;
+            font-weight: bold;
+            color: #357EC7;
+        }
+
+        /* Form row styles */
+        .form-row {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-row label {
+            min-width: 150px;
+        }
+
+        .form-row select, 
+        .form-row input {
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100%; /* Ensures full-width on larger screens */
+            max-width: 300px; /* Limits input width */
+        }
+
+        /* Button styles */
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .buttons button {
+            width: 120px;
+            height: 40px;
+            background-color: #C0C0C0;
+            color: #fff;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+            border: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .buttons button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Table container and table styles */
+        .table-container {
+            margin: 20px 30px;
+            width: 90%;
+            font-family: 'Poppins', Arial, sans-serif;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            border-radius: 6px;
+        }
+
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f4f4f4;
+            font-weight: bold;
+        }
+
+        td {
+            background-color: #fff;
+        }
+
+        /* Add button styling */
+        .add-btn {
+            padding: 8px 16px;
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+            margin : 8px;
+            border: 0px;
+        }
+
+        .add-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .upload-container {
+            display: flex;
+            flex-direction: row; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 15px; 
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .upload-container form {
+            width: 100%;
+            max-width: 500px; 
+            text-align: center; 
+        }
+
+        .upload-container label {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .upload-container input[type="file"] {
+            margin: 10px 0 20px;
+        }
+
+
+
+        #otherMappingTable input[type="text"] {
+            padding: 10px;
+            border-radius: 5px;
+            border: 0px solid #ced4da;
+            font-size: 14px;
+            width: 200px;
+            max-width: 100%;
+        }
+
+        .remove-btn {
+            width: 100px;
+            font-size: 14px;
+            font-family: 'Poppins', sans-serif;
+            padding: 6px 6px;
+            cursor: pointer;
+        }
+
+        #otherMappingTable tr {
+            border-bottom: 1px solid #ddd;
+        }
+
+        #otherMappingTable tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        #otherMappingTable td button.remove-btn:hover {
+            background-color: #c82333;
+            border-color: #bd2130;
+        }
+
+        #otherMappingTable input[type="text"]:focus {
+            outline: none;
+            border: 0px solid #ced4da;
+        }
+
+        #facultyMappingTable input[type="text"] {
+            padding: 10px;
+            border-radius: 5px;
+            border: 0px solid #ced4da;
+            font-size: 14px;
+            width: 200px;
+            max-width: 100%;
+        }
+
+
+        .remove-btn {
+            width: 100px;
+            font-size: 14px;
+            font-family: 'Poppins', sans-serif;
+            padding: 6px 6px;
+            cursor: pointer;
+            background-color: #dc3545;
+            color: #fff;
+            border: 1px;
+            border-radius: 5px;
+        }
+
+        #facultyMappingTable tr {
+            border-bottom: 1px solid #ddd;
+        }
+
+        #facultyMappingTable tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        #facultyMappingTable td button.remove-btn:hover {
+            background-color: #c82333;
+            border-color: #bd2130;
+        }
+
+        #facultyMappingTable input[type="text"]:focus {
+            outline: none;
+            border: 0px solid #ced4da;
+        }
+        input[placeholder="Enter Subject Code"] {
+            text-transform: uppercase;
+        }
+    </style>
 </head>
 <body>
 
@@ -75,7 +327,7 @@ if ($row['student_count'] > 0) {
         <img src="Mits_logo_24-removebg-preview.png" alt="MITS Logo" height="200" width="800">
     </div>
 
-    <div class="heading-section ml-5" style="text-align: center;">
+    <div class="heading-section">
         <label>Mapping of Subject to Faculty</label>
     </div>
     <form id="mainForm" action="processForm.php" method="POST" enctype="multipart/form-data">
@@ -166,39 +418,7 @@ if ($row['student_count'] > 0) {
             </tbody>
         </table>
         <button type="button" onclick="addFacultyMappingRow()" class="add-btn">Add More</button>
-        </div>
-
-        <!-- Additional Section for Elective Subjects -->
-        <label style="font-size: 20px; color: purple; margin-top: 40px;">Elective Subjects Mapping</label>
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th style="width: 5%;">S.No.</th>
-                        <th style="width: 20%;">Elective Subject Code</th>
-                        <th style="width: 35%;">Name of the Elective</th>
-                        <th style="width: 20%;">Faculty ID</th>
-                        <th style="width: 20%;">Upload Students</th>
-                        <th style="width: 10%;">Action</th>
-                    </tr>
-                </thead>
-                <tbody id="electiveSubjectsTable">
-                    <tr>
-                        <td>1</td>
-                        <td><input type="text" name="electiveCode[]" placeholder="Enter Elective Code" required></td>
-                        <td><input type="text" name="electiveName[]" placeholder="Enter Elective Name" required></td>
-                        <td><input type="text" name="electiveFacultyID[]" placeholder="Enter Faculty ID" required></td>
-                        <td>
-                            <input type="file" name="electiveStudentFile[]" accept=".xlsx" required>
-                        </td>
-                        <td style="text-align: center; vertical-align: middle;">
-                            <button type="button" onclick="removeElectiveRow(this)" class="remove-btn">Remove</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <button type="button" onclick="addElectiveRow()" class="add-btn">Add More</button>
-        </div>
+    </div>
 
     <!-- Mentoring Information -->
     <label style="font-size: 20px; color: purple; margin-top: 40px;">Mentoring Information</label>
@@ -348,39 +568,6 @@ function removeMentoringRow(button) {
 // Function to renumber rows after deletion
 function renumberMentoringRows() {
     let table = document.getElementById('mentoringTable');
-    Array.from(table.rows).forEach((row, index) => {
-        row.cells[0].textContent = index + 1; // Update the S.No. column
-    });
-}
-
-function addElectiveRow() {
-    let table = document.getElementById('electiveSubjectsTable');
-    let rowCount = table.rows.length; // Get the total number of rows in the table
-    let row = table.insertRow(rowCount); // Insert a new row at the end
-    row.innerHTML = `
-        <td>${rowCount + 1}</td>
-        <td><input type="text" name="electiveCode[]" placeholder="Enter Elective Code" required></td>
-        <td><input type="text" name="electiveName[]" placeholder="Enter Elective Name" required></td>
-        <td><input type="text" name="electiveFacultyID[]" placeholder="Enter Faculty ID" required></td>
-        <td>
-            <input type="file" name="electiveStudentFile[]" accept=".xlsx" required>
-        </td>
-        <td style="text-align: center; vertical-align: middle;">
-            <button type="button" onclick="removeElectiveRow(this)" class="remove-btn">Remove</button>
-        </td>`;
-}
-
-// Function to remove an elective row
-function removeElectiveRow(button) {
-    let table = document.getElementById('electiveSubjectsTable');
-    let row = button.closest('tr'); // Get the row of the clicked button
-    table.deleteRow(row.rowIndex - 1); // Remove the row
-    renumberElectiveRows(); // Renumber the rows
-}
-
-// Function to renumber rows after deletion
-function renumberElectiveRows() {
-    let table = document.getElementById('electiveSubjectsTable');
     Array.from(table.rows).forEach((row, index) => {
         row.cells[0].textContent = index + 1; // Update the S.No. column
     });

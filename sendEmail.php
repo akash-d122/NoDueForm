@@ -30,10 +30,10 @@ try {
     $mail->isSMTP();
     $mail->Host = 'smtp.gmail.com';
     $mail->SMTPAuth = true;
-    // $mail->Username = 'akashlucky2232@gmail.com'; // Replace with your Gmail
-    // $mail->Password = 'xnov lfbw inkv ckjd';   // Replace with your Gmail App Password
-    $mail->Username = 'mitsnodueform@gmail.com'; // Replace with your Gmail
-    $mail->Password = 'lkqa clch gdfo bciu';   // Replace with your Gmail App Password
+    $mail->Username = 'akashlucky2232@gmail.com'; // Replace with your Gmail
+    $mail->Password = 'xnov lfbw inkv ckjd';   // Replace with your Gmail App Password
+    // $mail->Username = 'mitsnodueform@gmail.com'; // Replace with your Gmail
+    // $mail->Password = 'lkqa clch gdfo bciu';   // Replace with your Gmail App Password
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
     $mail->Port = 587;
 

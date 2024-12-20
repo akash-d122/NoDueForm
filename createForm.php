@@ -129,6 +129,8 @@ $conn->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>No Due Form</title>
     <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
@@ -224,11 +226,12 @@ $conn->close();
                                 <label for="academicYear" class="form-label">Academic Year</label>
                                 <select name="academicYear" id="academicYear" class="form-select" required>
                                     <option value="">-- Select Year here --</option>
-                                    <option value="2024">2024</option>
-                                    <option value="2025">2025</option>
-                                    <option value="2026">2026</option>
-                                    <option value="2027">2027</option>
-                                    <option value="2028">2028</option>
+                                    <option value="2024-25">2024-25</option>
+                                    <option value="2025-26">2025-26</option>
+                                    <option value="2026-27">2026-27</option>
+                                    <option value="2027-28">2027-28</option>
+                                    <option value="2028-29">2028-29</option>
+                                    <option value="2029-30">2029-30</option>
                                 </select>
                             </div>
                         </div>
@@ -240,17 +243,18 @@ $conn->close();
                 </div>
             </div>
         </div>
+        <div style="position:absolute; bottom:20px; width:82.2vw;">
+            <footer class="footer mt-5 py-3 bg-light" style="border-radius:10px; background: linear-gradient(to left, #c3e1cb, #ffffff);" >
+            <div class="text-center">
+                <span style="font-size: 12px; color: #29465B;">
+                    Developed & Hosted by <strong>MITS_InstituteDatabaseSystem@PAARC</strong>
+                </span>
+            </div>
+            </footer>
+        </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <div class="container">
-    <footer class="footer mt-5 py-3 bg-light">
-        <div class="text-center">
-            <span style="font-size: 12px; color: #29465B;">
-                Developed & Hosted by <strong>MITS_InstituteDatabaseSystem@PAARC</strong>
-            </span>
-        </div>
-    </footer>
-</div>
+    
 
 </body>
 </html>

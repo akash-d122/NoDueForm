@@ -11,8 +11,11 @@
         die("Error: Form ID not provided.");
     }
 
-    // Fetch Year and Section information
-    $query_year_section = "SELECT DISTINCT year_semester, section FROM no_due_forms WHERE form_id = '$form_id' LIMIT 1";
+    // Fetch Year and Section information linked to the form
+    $query_year_section = "
+        SELECT DISTINCT year_semester, section 
+        FROM no_due_forms 
+        WHERE form_id = '$form_id' LIMIT 1";
     $result_year_section = mysqli_query($conn, $query_year_section);
 
     if ($row = mysqli_fetch_assoc($result_year_section)) {
@@ -20,23 +23,32 @@
         $section = $row['section'];
     }
 
-    // Fetch Subject and Faculty Mapping
-    $query_subjects = "SELECT s.subject_name, f.name AS faculty_name 
-                    FROM subject_faculty_mapping sfm 
-                    JOIN subjects s ON sfm.subject_id = s.subject_id 
-                    JOIN faculty f ON sfm.employee_id = f.employee_id";
-    $result_subjects = mysqli_query($conn, $query_subjects);
+    // Fetch Faculty details linked to the specific form_id
+    $query_subjects = "
+    SELECT s.subject_name, f.name AS faculty_name
+    FROM subject_faculty_mapping sfm
+    INNER JOIN subjects s ON sfm.subject_id = s.subject_id
+    INNER JOIN faculty f ON sfm.employee_id = f.employee_id
+    WHERE s.form_id = '$form_id'
+";
 
-    // Fetch Student Assignment and Mentor Status
+
+$result_subjects = mysqli_query($conn, $query_subjects);
+if (!$result_subjects) {
+    die("Error in query: " . mysqli_error($conn));
+}
+
+
+    // Fetch Student Assignment and Mentor Status linked to the form_id
     $query_students = "
-        SELECT s.student_id, s.name AS student_name, 
-            sa.assignment_1_status, sa.assignment_2_status, 
-            sm.completion_status 
+        SELECT s.student_id, s.roll_number AS student_name, 
+               sa.assignment_1_status, sa.assignment_2_status, 
+               sm.completion_status 
         FROM students s
         JOIN student_assignments sa ON s.student_id = sa.student_id
         JOIN student_mentoring sm ON s.student_id = sm.student_id
-        WHERE s.form_id = '$form_id' 
-    ";
+        WHERE s.form_id = '$form_id'";
+
     $result_students = mysqli_query($conn, $query_students);
 
     // Aggregating student data
@@ -48,11 +60,15 @@
         $students[$row['student_id']]['mentor_status'][] = $row['completion_status'];
     }
 ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <title>Mapped Details</title>
     <style>
@@ -70,6 +86,7 @@
             display: flex;
             flex-direction: column;
             margin-top: 60px;
+            margin-left: 10%;
         }
 
         .heading-section {
@@ -171,11 +188,37 @@
         .table-container {
             margin-top: 40px;
         }
+
+        #myBtn {
+            font-family: Poppins, sans-serif;
+            display: none;
+            position: fixed;
+            bottom: 15px;
+            right: 15px;
+            z-index: 99;
+            border: none;
+            outline: none;
+            background-color: #333;
+            color: white;
+            cursor: pointer;
+            padding: 12px 18px;
+            border-radius: 50px; /* Circular style for a sleek look */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            font-size: 16px;
+        }
+
+        #myBtn:hover {
+            background-color: #444;
+        }
+
+
     </style>
 </head>
 <body>
+    <!-- Sidebar -->
+        <?php include('sidebar.php'); ?>
 
-    <div class="content">
+    <div class="content" style="margin-left : 13vw;">
         <div class="ex">
             <img src="Mits_logo_24-removebg-preview.png" alt="MITS Logo" height="200" width="800">
         </div>
@@ -203,18 +246,21 @@
         </div> -->
 
         <!-- Subject and Faculty Table -->
-        <div class="table-container">
+        <div class="table-container" style=" width:100%;">
             <table align-items="center">
                 <thead>
-                    <tr style="text-align : center;">
-                        <th>Subject</th>
+                    <tr>
+                        <th>S.No</th>
+                        <th style="widht:25vw;">Subject</th>
                         <th>Faculty Name</th>
                     </tr>
                 </thead>
-                <tbody style="text-align : center;">
+                <tbody>
                     <?php
+                    $sno = 1; // Initialize the counter
                     while ($row = mysqli_fetch_assoc($result_subjects)) {
                         echo "<tr>";
+                        echo "<td >" . $sno++ . "</td>"; // Increment the counter
                         echo "<td>" . htmlspecialchars($row['subject_name']) . "</td>";
                         echo "<td>" . htmlspecialchars($row['faculty_name']) . "</td>";
                         echo "</tr>";
@@ -224,20 +270,23 @@
             </table>
         </div>
 
+
         <!-- Student Assignment and Mentor Status Table -->
-        <div class="table-container">
+        <div class="table-container" style="margin-right:0vw; width:100%">
             <table align-items="center">
                 <thead>
-                    <tr style="text-align : center;">
-                        <th>Student Name</th>
+                    <tr style="text-align: center;">
+                        <th style="text-align: left;">S.No.</th>
+                        <th style="text-align: left;">Roll Number</th>
                         <th>Assignment 1 Status</th>
                         <th>Assignment 2 Status</th>
                         <th>Mentor Status</th>
                         <th>Approved/Pending</th>
                     </tr>
                 </thead>
-                <tbody style="text-align : center;">
+                <tbody style="text-align: center;">
                     <?php
+                    $sno = 1; // Initialize serial number counter
                     foreach ($students as $student_id => $student_data) {
                         // Check if all assignment 1 statuses are approved (1)
                         $assignment_1_approved = !in_array(0, $student_data['assignment_1_status']);
@@ -247,13 +296,20 @@
 
                         // Check if all mentor statuses are "Yes" or "NA"
                         $mentor_approved = !in_array("NULL", $student_data['mentor_status']) && 
-                                           count(array_intersect($student_data['mentor_status'], ['Yes', 'NA'])) === count($student_data['mentor_status']);
+                                            count(array_intersect($student_data['mentor_status'], ['Yes', 'NA'])) === count($student_data['mentor_status']);
 
                         // Final status: Approved if all assignments and mentoring are approved
                         $final_status = ($assignment_1_approved && $assignment_2_approved && $mentor_approved) ? 'Approved' : 'Pending';
 
                         echo "<tr>";
-                        echo "<td>" . htmlspecialchars($student_data['name']) . "</td>";
+                        // Serial Number
+                        echo "<td style='text-align: center;'>" . $sno++ . "</td>";
+
+                        // Make the roll number a clickable link
+                        echo "<td style='text-align: left;'>" . 
+                            "<a style='text-decoration: none;' href='student1.php?roll_number=" . urlencode($student_data['name']) . "'>" . 
+                            htmlspecialchars($student_data['name']) . 
+                            "</a></td>";
 
                         // Assignment 1 status icon
                         echo "<td style='text-align: center;'>" . 
@@ -290,7 +346,31 @@
             </table>
         </div>
 
+        <div style="text-align: center; margin-top: 20px;">
+                <button onclick="window.location.href='NoDueFormList.php'" style="padding: 10px 20px; font-size: 16px; background-color: #357EC7; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                    Back
+                </button>
+                <button id="myBtn" onclick="scrollToTop()">↑ Top</button>    
+        </div>
     </div>
 
+    <script>
+        // let mybutton = document.getElementById("myBtn");
+
+        window.onscroll = function () { scrollFunction(); };
+
+        function scrollFunction() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                mybutton.style.display = "block";
+            } else {
+                mybutton.style.display = "none";
+            }
+        }
+
+        function topFunction() {
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+        }
+    </script>
 </body>
 </html>

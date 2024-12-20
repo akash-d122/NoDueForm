@@ -4,10 +4,12 @@
     <div>
         <img src="logo.png">
         <h3><a href="dashboard.php">HOD Dashboard</a></h3>
+        <a href="addFaculty.php">Add Faculty</a>
         <a href="createForm.php">Create No Due Form</a>
         <a href="NoDueFormList.php">List of Forms</a>
-        <a href="addFaculty.php">Add Faculty</a>
-        <!-- <a href="edit_profile.php">Edit Profile</a> -->
+        <!-- <a href="searchFaculty.php">Search Faculty</a> -->
+        <a href="searchFaculty.php" target="_blank">Search Faculty</a>
+        <a href="hodReset.php">Reset Password</a>
     </div>
     <a href="logout.php" class="text-danger">Logout</a>
 </div>
